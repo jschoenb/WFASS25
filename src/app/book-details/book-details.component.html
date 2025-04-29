@@ -49,5 +49,14 @@
       </div>
     </div>
   </div>
-  <button (click)="showBookList()" class="ui red button">Zurück zur Buchliste</button>
+  <button [routerLink]="'/books'" class="ui red button">Zurück zur Buchliste</button>
+
+  <h2>Testing the submenu</h2>
+  <nav>
+    <ul>
+      <li><a [routerLink]="'/books/'+b.isbn+'/first'" routerLinkActive="active">First Component</a></li>
+      <li><a [routerLink]="'/books/'+b.isbn+'/second'" routerLinkActive="active">Second Component</a></li>
+    </ul>
+    <router-outlet></router-outlet>
+  </nav>
 }

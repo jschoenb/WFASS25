@@ -1,53 +1,29 @@
-import {Component, EventEmitter, output, Output} from '@angular/core';
-import {Author, Book, Image} from '../shared/book';
+import {Component, inject, signal} from '@angular/core';
+import {Book} from '../shared/book';
 import {BookListItemComponent} from '../book-list-item/book-list-item.component';
 import {BookContainerComponent} from '../book-container/book-container.component';
+import {BookStoreService} from '../shared/book-store.service';
+import {RouterLink} from '@angular/router';
 
 
 @Component({
   selector: 'bs-book-list',
   imports: [
     BookListItemComponent,
-    BookContainerComponent
+    BookContainerComponent,
+    RouterLink
   ],
+  providers: [{provide: BookStoreService, useClass:BookStoreService}],
   templateUrl: './book-list.component.html',
   styles: ``
 })
 export class BookListComponent {
-  books: Book[] = [];
-  //@Output() showDetailsEvent = new EventEmitter<Book>();
-  showDetailsEvent = output<Book>();
+  books = signal<Book[]>([]);
 
-  showDetails(book: Book) {
-    this.showDetailsEvent.emit(book);
-  }
+  bs = inject(BookStoreService);
 
   ngOnInit() {
-    this.books = [
-      new Book(1,
-        '9783864903571',
-        'Angular',
-        [new Author(1,'Johannes', 'Hoppe'), new Author(2,'Danny','Koppenhagen'),
-          new Author(3,'Ferdinand','Malcher'), new Author(4,'Gregor', 'Woiwode')],
-        new Date(2017, 3, 1),
-        1,
-        'Grundlagen, fortgeschrittene Techniken und Best Practices mit TypeScript - ab Angular 4, inklusive NativeScript und Redux',
-        5,
-        [new Image(1,'https://ng-buch.de/cover2.jpg', 'Buchcover')],
-        'Mit Angular setzen Sie auf ein modernes und modulares...'
-      ),
-      new Book(2,
-        '9783864901546',
-        'AngularJS',
-        [new Author(5,'Philipp', 'Tarasiewicz'),new Author(6,'Robin', 'Böhm')],
-        new Date(2014, 5, 29),
-        1,
-        'Eine praktische Einführung',
-        5,
-        [new Image(2,'https://ng-buch.de/cover1.jpg', 'Buchcover')],
-        'Dieses Buch führt Sie anhand eines zusammenhängenden Beispielprojekts...'
-      )
-    ];
+    this.bs.getAll().subscribe(res => this.books.set(res));
   }
 
 }

@@ -1,21 +1,29 @@
-import {Component, EventEmitter, input, Input, output, Output} from '@angular/core';
+import {Component, EventEmitter, input, Input, output, Output, signal} from '@angular/core';
 import {Book} from '../shared/book';
+import {BookStoreService} from '../shared/book-store.service';
+import {ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 
 @Component({
   selector: 'bs-book-details',
-  imports: [],
+  imports: [
+    RouterLink,
+    RouterLinkActive,
+    RouterOutlet
+  ],
   templateUrl: './book-details.component.html',
   styles: ``
 })
 export class BookDetailsComponent {
-  //@Input() book: Book | undefined;
-  book = input.required<Book>();
-  //@Output() showListEvent = new EventEmitter<any>();
-  showListEvent = output<void>();
+    book = signal<Book|undefined>(undefined);
+    constructor(private bs:BookStoreService, private route:ActivatedRoute) {
+    }
 
-  showBookList() {
-    this.showListEvent.emit();
-  }
+   ngOnInit() {
+      const params = this.route.snapshot.params;
+      this.bs.getSingle(params['isbn']).subscribe(
+        (b:Book) =>this.book.set(b)
+      );
+   }
 
   getRating(num:number){
     let a =[];

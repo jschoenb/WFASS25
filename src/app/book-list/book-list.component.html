@@ -1,7 +1,7 @@
 <!--<div class="ui middle aligned selection divided list"> -->
 <bs-book-container>
-  @for (book of books; track book) {
-    <a class="item bs-book-list-item" [book]="book" (click)="showDetails(book)"></a>
+  @for (book of books(); track book) {
+    <a class="item bs-book-list-item" [book]="book" [routerLink]="book.isbn"></a>
   }
 </bs-book-container>
 <!--</div> -->
