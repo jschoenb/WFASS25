@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, input} from '@angular/core';
 
 import {Book} from '../shared/book';
 
@@ -9,5 +9,6 @@ import {Book} from '../shared/book';
   styles: ``
 })
 export class BookListItemComponent {
-  @Input() book: Book | undefined;
+  //@Input() book: Book | undefined;
+  book = input.required<Book>();
 }

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, output, Output} from '@angular/core';
 import {Author, Book, Image} from '../shared/book';
 import {BookListItemComponent} from '../book-list-item/book-list-item.component';
 import {BookContainerComponent} from '../book-container/book-container.component';
@@ -15,7 +15,8 @@ import {BookContainerComponent} from '../book-container/book-container.component
 })
 export class BookListComponent {
   books: Book[] = [];
-  @Output() showDetailsEvent = new EventEmitter<Book>();
+  //@Output() showDetailsEvent = new EventEmitter<Book>();
+  showDetailsEvent = output<Book>();
 
   showDetails(book: Book) {
     this.showDetailsEvent.emit(book);
@@ -50,3 +51,4 @@ export class BookListComponent {
   }
 
 }
+
