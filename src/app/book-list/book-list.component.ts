@@ -4,6 +4,7 @@ import {BookListItemComponent} from '../book-list-item/book-list-item.component'
 import {BookContainerComponent} from '../book-container/book-container.component';
 import {BookStoreService} from '../shared/book-store.service';
 import {RouterLink} from '@angular/router';
+import {httpResource} from '@angular/common/http';
 
 
 @Component({
@@ -17,14 +18,18 @@ import {RouterLink} from '@angular/router';
   templateUrl: './book-list.component.html',
   styles: ``
 })
-export class BookListComponent implements OnInit {
-  books = signal<Book[]>([]);
+export class BookListComponent  {
+ /* books = signal<Book[]>([]);
 
   bs = inject(BookStoreService);
 
   ngOnInit() {
     this.bs.getAll().subscribe(res => this.books.set(res));
-  }
+  }*/
+
+  books = httpResource<Book[]>(
+    () =>`http://bookstore25.putz.kwmhgb.at/api/books`
+  )
 
 }
 

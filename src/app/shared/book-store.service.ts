@@ -27,6 +27,10 @@ export class BookStoreService {
     pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
 
+  getAllSearchViaFetch(searchTerm: string,abortSignal: AbortSignal): Promise<Response> {
+    return fetch(`${this.api}/books/search/${searchTerm}`,{signal:abortSignal});
+  }
+
   remove(isbn: string): Observable<Book> {
     return this.http.delete<any>(`${this.api}/books/${isbn}`).
     pipe(retry(3)).pipe(catchError(this.errorHandler));

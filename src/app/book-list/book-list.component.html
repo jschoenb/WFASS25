@@ -1,15 +1,15 @@
 <!--<div class="ui middle aligned selection divided list"> -->
 <bs-book-container>
-  @for (book of books(); track book) {
+  @for (book of books.value(); track book) {
     <a class="item bs-book-list-item" [book]="book" [routerLink]="book.isbn"></a>
   }
 </bs-book-container>
-@if (!books()) {
+@if (!books.value()) {
   <div class="ui active dimmer">
     <div class="ui large text loader">Daten werden geladen...</div>
   </div>
 }
-@if (books() && !books().length) {
+@if (books.value() && !books.value()?.length) {
   <p>Es wurden noch keine Bücher eingetragen.</p>
 }
 <!--</div> -->

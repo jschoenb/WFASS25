@@ -1,17 +1,17 @@
-<div class="ui search" [ngClass]="{ loading : isLoading}">
+<div class="ui search" [ngClass]="{ loading : books.isLoading()}">
   <div class="ui icon input">
     <input (keyup)="searchBooks(searchTerm.value)" #searchTerm
            class="prompt" type="text" placeholder="Suche ..."/>
     <i class="search icon"></i>
   </div>
-  <!--<div class="results transition" [ngClass]="{ visible: foundBooks.length }">
-    @for(book of foundBooks; track book){
+  <div class="results transition" [ngClass]="{ visible: books.value()?.length }">
+    @for(book of books.value(); track book){
       <a href (click)="bookSelected.emit(book); false;" class="result">
         <div class="content">
           <div class="title">{{ book.title }}</div>
         </div>
       </a>
     }
-  </div> -->
+  </div>
 </div>
 
