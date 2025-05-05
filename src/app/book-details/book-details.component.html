@@ -50,6 +50,10 @@
     </div>
   </div>
   <button [routerLink]="'/books'" class="ui red button">Zurück zur Buchliste</button>
+  <button class="ui tiny red labeled icon button" (click)="removeBook()">
+    <i class="remove icon"></i>Buch löschen
+  </button>
+
 
   <h2>Testing the submenu</h2>
   <nav>

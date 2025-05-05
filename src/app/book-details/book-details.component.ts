@@ -1,7 +1,7 @@
 import {Component, EventEmitter, input, Input, OnInit, output, Output, signal} from '@angular/core';
 import {Book} from '../shared/book';
 import {BookStoreService} from '../shared/book-store.service';
-import {ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 
 @Component({
   selector: 'bs-book-details',
@@ -15,8 +15,23 @@ import {ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet} from '@angul
 })
 export class BookDetailsComponent implements OnInit{
     book = signal<Book|undefined>(undefined);
-    constructor(private bs:BookStoreService, private route:ActivatedRoute) {
+    constructor(private bs:BookStoreService,
+                private route:ActivatedRoute,
+                private router: Router
+                ) {
     }
+
+  removeBook() {
+    if(this.book()){
+      if(confirm('Buch wirklich löschen?')){
+        this.bs.remove(this.book()!.isbn).subscribe(
+          () => {
+            this.router.navigate(['../'],{relativeTo: this.route});
+          }
+        );
+      }
+    }
+  }
 
    ngOnInit() {
       const params = this.route.snapshot.params;
@@ -32,5 +47,6 @@ export class BookDetailsComponent implements OnInit{
     }
     return a;
   }
+
 
 }
