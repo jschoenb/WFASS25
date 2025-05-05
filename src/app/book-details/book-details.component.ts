@@ -2,6 +2,7 @@ import {Component, EventEmitter, input, Input, OnInit, output, Output, signal} f
 import {Book} from '../shared/book';
 import {BookStoreService} from '../shared/book-store.service';
 import {ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'bs-book-details',
@@ -17,7 +18,8 @@ export class BookDetailsComponent implements OnInit{
     book = signal<Book|undefined>(undefined);
     constructor(private bs:BookStoreService,
                 private route:ActivatedRoute,
-                private router: Router
+                private router: Router,
+                private toastr: ToastrService
                 ) {
     }
 
@@ -26,6 +28,7 @@ export class BookDetailsComponent implements OnInit{
       if(confirm('Buch wirklich löschen?')){
         this.bs.remove(this.book()!.isbn).subscribe(
           () => {
+            this.toastr.success('Buch gelöscht',"KWM Bookstore");
             this.router.navigate(['../'],{relativeTo: this.route});
           }
         );
