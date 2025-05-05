@@ -1,4 +1,4 @@
-import {Component, EventEmitter, input, Input, output, Output, signal} from '@angular/core';
+import {Component, EventEmitter, input, Input, OnInit, output, Output, signal} from '@angular/core';
 import {Book} from '../shared/book';
 import {BookStoreService} from '../shared/book-store.service';
 import {ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
@@ -13,7 +13,7 @@ import {ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet} from '@angul
   templateUrl: './book-details.component.html',
   styles: ``
 })
-export class BookDetailsComponent {
+export class BookDetailsComponent implements OnInit{
     book = signal<Book|undefined>(undefined);
     constructor(private bs:BookStoreService, private route:ActivatedRoute) {
     }

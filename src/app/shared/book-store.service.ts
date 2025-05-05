@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Author, Book, Image} from './book';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {catchError, Observable, retry, throwError} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +13,16 @@ export class BookStoreService {
   }
 
   getAll(): Observable<Array<Book>> {
-    return this.http.get<Array<Book>>(`${this.api}/books`);
+    return this.http.get<Array<Book>>(`${this.api}/books`).
+      pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
 
   getSingle(isbn: string): Observable<Book> {
-    return this.http.get<Book>(`${this.api}/books/${isbn}`);
+    return this.http.get<Book>(`${this.api}/books/${isbn}`).
+    pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
+
+  private errorHandler(error: Error | any): Observable<any> {
+    return throwError(error);
   }
 }

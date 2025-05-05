@@ -1,4 +1,4 @@
-import {Component, inject, signal} from '@angular/core';
+import {Component, inject, OnInit, signal} from '@angular/core';
 import {Book} from '../shared/book';
 import {BookListItemComponent} from '../book-list-item/book-list-item.component';
 import {BookContainerComponent} from '../book-container/book-container.component';
@@ -17,7 +17,7 @@ import {RouterLink} from '@angular/router';
   templateUrl: './book-list.component.html',
   styles: ``
 })
-export class BookListComponent {
+export class BookListComponent implements OnInit {
   books = signal<Book[]>([]);
 
   bs = inject(BookStoreService);
