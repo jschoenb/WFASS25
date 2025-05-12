@@ -37,6 +37,11 @@ export class BookStoreService {
     pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
 
+  check(isbn: string): Observable<Boolean> {
+    return this.http.get<Boolean>(`${this.api}/books/checkisbn/${isbn}`).
+    pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
+
   getAllSearchViaFetch(searchTerm: string,abortSignal: AbortSignal): Promise<Response> {
     return fetch(`${this.api}/books/search/${searchTerm}`,{signal:abortSignal});
   }

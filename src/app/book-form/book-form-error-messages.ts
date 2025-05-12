@@ -8,6 +8,8 @@ export class ErrorMessage {
 export const BookFormErrorMessages = [
   new ErrorMessage('title', 'required', 'Ein Buchtitel muss angegeben werden'),
   new ErrorMessage('isbn', 'required', 'Es muss eine ISBN angegeben werden'),
+  new ErrorMessage('isbn', 'isbnExists', 'Die ISBN existiert bereits'),
+  new ErrorMessage('isbn', 'isbnFormat', 'Die ISBN muss aus 10 oder 13 Zeichen bestehen '),
   new ErrorMessage('isbn', 'minlength', 'Die ISBN muss mindestens 10 Zeichen enthalten'),
   new ErrorMessage('isbn', 'maxlength', 'Eine ISBN darf höchstens 13 Zeichen haben'),
   new ErrorMessage('published', 'required', 'Es muss ein Erscheinungsdatum angegeben werden'),

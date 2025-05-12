@@ -3,13 +3,17 @@ import {Book} from '../shared/book';
 import {BookStoreService} from '../shared/book-store.service';
 import {ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
+import {DatePipe} from '@angular/common';
+import {IsbnPipe} from '../shared/isbn.pipe';
 
 @Component({
   selector: 'bs-book-details',
   imports: [
     RouterLink,
     RouterLinkActive,
-    RouterOutlet
+    RouterOutlet,
+    DatePipe,
+    IsbnPipe
   ],
   templateUrl: './book-details.component.html',
   styles: ``

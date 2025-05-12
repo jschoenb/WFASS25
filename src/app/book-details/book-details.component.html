@@ -19,11 +19,11 @@
         </div>
         <div class="four wide column">
           <h4 class="ui header">ISBN</h4>
-          {{ b.isbn }}
+          {{ b.isbn | isbn:true}}
         </div>
         <div class="four wide column">
           <h4 class="ui header">Erschienen</h4>
-          {{ b.published }}
+          {{ b.published | date: 'longDate'}}
         </div>
         <div class="four wide column">
           <h4 class="ui header">Rating</h4>
