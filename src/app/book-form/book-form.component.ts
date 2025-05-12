@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {BookStoreService} from '../shared/book-store.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {BookFactory} from '../shared/book-factory';
+import {BookFormErrorMessages} from './book-form-error-messages';
 
 @Component({
   selector: 'bs-book-form',
@@ -16,7 +17,8 @@ export class BookFormComponent implements OnInit {
   bookForm : FormGroup;
   isUpdatingBook : boolean = false;
   book = BookFactory.empty();
-  images : FormArray
+  images : FormArray;
+  errors:{[key:string]:string} ={};
 
   constructor(private fb:FormBuilder,private bs:BookStoreService,
               private route:ActivatedRoute, private router:Router) {
@@ -40,13 +42,23 @@ export class BookFormComponent implements OnInit {
     this.buildThumbnailArray();
     this.bookForm = this.fb.group({
       id: this.book.id,
-      title: this.book.title,
+      title: [this.book.title,Validators.required],
       subtitle: this.book.subtitle,
-      isbn: this.book.isbn,
+      isbn: [this.book.isbn,[
+        Validators.required,
+        Validators.minLength(10),
+        Validators.maxLength(13)
+      ]],
       description: this.book.description,
-      rating: this.book.rating,
-      published : new Date(this.book.published).toISOString().split('T')[0],
+      rating: [this.book.rating,[
+        Validators.min(0),
+        Validators.max(10)
+      ]],
+      published : [new Date(this.book.published).toISOString().split('T')[0],Validators.required],
       images: this.images,
+    })
+    this.bookForm.statusChanges.subscribe(()=>{
+      this.updateErrorMessages();
     })
   }
 
@@ -55,8 +67,8 @@ export class BookFormComponent implements OnInit {
       this.images = this.fb.array([]);
       for(let img of this.book.images){
         this.images.push(this.fb.group({
-          url: img.url,
-          title: img.title,
+          url: [img.url,Validators.required],
+          title: [img.title,Validators.required],
           id: img.id
         }));
       }
@@ -69,5 +81,16 @@ export class BookFormComponent implements OnInit {
 
   addThumbnailControl() {
     this.images.push(this.fb.group({url: '', title: '', id: 0}));
+  }
+
+  updateErrorMessages(){
+    this.errors = {};
+    for(const message of BookFormErrorMessages){
+      const control = this.bookForm.get(message.forControl);
+      if(control && control.dirty && control.invalid && control.errors &&
+      control.errors[message.forValidator] && !control.errors[message.forControl]){
+        this.errors[message.forControl] = message.text;
+      }
+    }
   }
 }

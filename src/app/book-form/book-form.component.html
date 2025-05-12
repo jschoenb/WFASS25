@@ -3,6 +3,9 @@
   <div class="field">
     <label>Buchtitel</label>
     <input type="text" placeholder="Buchtitel" formControlName="title">
+    @if (errors['title']){
+      <div class="ui negative message">{{errors['title']}}</div>
+    }
   </div>
   <div class="field">
     <label>Untertitel</label>
@@ -11,10 +14,16 @@
   <div class="field" [class.disabled]="isUpdatingBook">
     <label>ISBN-Nummer</label>
     <input type="text" placeholder="ISBN" formControlName="isbn">
+    @if (errors['isbn']){
+      <div class="ui negative message">{{errors['isbn']}}</div>
+    }
   </div>
   <div class="field">
     <label>Erscheinungsdatum</label>
     <input type="date" placeholder="Erscheingungsdatum" formControlName="published">
+    @if (errors['published']){
+      <div class="ui negative message">{{errors['published']}}</div>
+    }
   </div>
   <div class="field">
     <label>Beschreibung</label>
@@ -23,6 +32,9 @@
   <div class="field">
     <label>Rating</label>
     <input type="number" placeholder="Rating" formControlName="rating">
+    @if (errors['rating']){
+      <div class="ui negative message">{{errors['rating']}}</div>
+    }
   </div>
   <div class="field">
     <label>Bilder</label>
@@ -47,4 +59,5 @@
       }
     </div>
   </div>
+  <button type="submit" class="ui button" [disabled]="bookForm.invalid">Speichern</button>
 </form>
