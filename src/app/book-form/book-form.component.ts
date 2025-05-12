@@ -4,6 +4,7 @@ import {BookStoreService} from '../shared/book-store.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {BookFactory} from '../shared/book-factory';
 import {BookFormErrorMessages} from './book-form-error-messages';
+import {Book} from '../shared/book';
 
 @Component({
   selector: 'bs-book-form',
@@ -91,6 +92,29 @@ export class BookFormComponent implements OnInit {
       control.errors[message.forValidator] && !control.errors[message.forControl]){
         this.errors[message.forControl] = message.text;
       }
+    }
+  }
+
+  submitForm() {
+    this.bookForm.value.images = this.bookForm.value.images.filter(
+      (thumbnail:{url:string})=> thumbnail.url
+    )
+
+    const book: Book = BookFactory.fromObject(this.bookForm.value);
+    //HACK for the authors
+    book.authors = this.book.authors;
+    if(this.isUpdatingBook){
+      this.bs.update(book).subscribe(() => {
+        this.router.navigate(['/books', book.isbn]);
+      });
+    } else {
+      //Hack momentan wissen wir die User id nicht
+      book.user_id = 1;
+      this.bs.create(book).subscribe(() => {
+        this.bookForm.reset(BookFactory.empty());
+        this.book = BookFactory.empty();
+        this.router.navigate(['/books']);
+      });
     }
   }
 }
