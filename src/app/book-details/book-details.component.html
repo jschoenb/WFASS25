@@ -53,7 +53,9 @@
   <button class="ui tiny red labeled icon button" (click)="removeBook()">
     <i class="remove icon"></i>Buch löschen
   </button>
-
+  <a class="ui tiny yellow labeled icon button" [routerLink]="['../../admin',b.isbn]">
+    <i class="edit icon"></i>Buch bearbeiten
+  </a>
 
   <h2>Testing the submenu</h2>
   <nav>

@@ -27,6 +27,16 @@ export class BookStoreService {
     pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
 
+  create(book: Book): Observable<any> {
+    return this.http.post<Book>(`${this.api}/books`, book).
+    pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
+
+  update(book: Book): Observable<any> {
+    return this.http.put<Book>(`${this.api}/books/${book.isbn}`, book).
+    pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
+
   getAllSearchViaFetch(searchTerm: string,abortSignal: AbortSignal): Promise<Response> {
     return fetch(`${this.api}/books/search/${searchTerm}`,{signal:abortSignal});
   }

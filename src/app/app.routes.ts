@@ -4,6 +4,7 @@ import {BookListComponent} from './book-list/book-list.component';
 import {BookDetailsComponent} from './book-details/book-details.component';
 import {FirstComponent} from './first/first.component';
 import {SecondComponent} from './second/second.component';
+import {BookFormComponent} from './book-form/book-form.component';
 
 export const routes: Routes = [
   {path:'', redirectTo:'home', pathMatch:'full'},
@@ -15,4 +16,6 @@ export const routes: Routes = [
       {path:'second', component: SecondComponent},
     ]
   },
+  {path:'admin', component: BookFormComponent},
+  {path:'admin/:isbn', component: BookFormComponent},
 ];
