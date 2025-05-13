@@ -1,8 +1,10 @@
-<div class="ui four item tabs menu">
+<div class="ui {{isLoggedIn()?'four':'three'}} item tabs menu">
   <a routerLink="home" routerLinkActive="active" class="item">Home</a>
   <a [routerLink]="'books'" routerLinkActive="active" class="item">Bücher</a>
+  @if(isLoggedIn()){
   <a routerLink="admin" routerLinkActive="active" class="item">Administration</a>
-  <a routerLink="login" routerLinkActive="active" class="item">Login</a>
+  }
+  <a routerLink="login" routerLinkActive="active" class="item">{{getLabel()}}</a>
 </div>
 <div class="ui container">
   <router-outlet></router-outlet>

@@ -3,6 +3,10 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {Router} from '@angular/router';
 import {AuthenticationService} from '../shared/authentication.service';
 
+interface Response{
+  access_token: string;
+}
+
 @Component({
   selector: 'bs-login',
   imports: [
@@ -33,6 +37,8 @@ export class LoginComponent implements OnInit{
     this.authService.login(val.username, val.password).subscribe(
       (res:any) =>{
         console.log(res);
+        this.authService.setSessionStorage((res as Response).access_token);
+        this.router.navigateByUrl("/")
       }
     )
   }
