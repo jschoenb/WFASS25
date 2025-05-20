@@ -5,6 +5,7 @@ import {ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet} from
 import {ToastrService} from 'ngx-toastr';
 import {DatePipe} from '@angular/common';
 import {IsbnPipe} from '../shared/isbn.pipe';
+import {AuthenticationService} from '../shared/authentication.service';
 
 @Component({
   selector: 'bs-book-details',
@@ -23,7 +24,8 @@ export class BookDetailsComponent implements OnInit{
     constructor(private bs:BookStoreService,
                 private route:ActivatedRoute,
                 private router: Router,
-                private toastr: ToastrService
+                private toastr: ToastrService,
+                public authService: AuthenticationService,
                 ) {
     }
 
@@ -34,6 +36,8 @@ export class BookDetailsComponent implements OnInit{
           () => {
             this.toastr.success('Buch gelöscht',"KWM Bookstore");
             this.router.navigate(['../'],{relativeTo: this.route});
+          },()=>{
+            this.toastr.error('Buch konnte nicht gelöscht werden',"KWM Bookstore");
           }
         );
       }

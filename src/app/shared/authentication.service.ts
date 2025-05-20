@@ -32,7 +32,6 @@ export class AuthenticationService {
       const decodedToken = jwtDecode(token) as Token;
       let expirationDate = new Date(0);
       expirationDate.setUTCSeconds(decodedToken.exp);
-      console.log(expirationDate);
       if(expirationDate < new Date()) {
         sessionStorage.removeItem("token");
         sessionStorage.removeItem("userId");

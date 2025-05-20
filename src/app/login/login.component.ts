@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AuthenticationService} from '../shared/authentication.service';
+import {ToastrService} from 'ngx-toastr';
 
 interface Response{
   access_token: string;
@@ -20,7 +21,8 @@ export class LoginComponent implements OnInit{
 
   constructor(private fb:FormBuilder,
               private router: Router,
-              private authService: AuthenticationService
+              private authService: AuthenticationService,
+              private toastr: ToastrService
               ) {
     this.loginForm = this.fb.group({});
   }
@@ -39,6 +41,8 @@ export class LoginComponent implements OnInit{
         console.log(res);
         this.authService.setSessionStorage((res as Response).access_token);
         this.router.navigateByUrl("/")
+      },()=>{
+        this.toastr.error('Inkorrekte Login Daten!',"KWM Bookstore");
       }
     )
   }

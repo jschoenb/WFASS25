@@ -6,6 +6,7 @@ import {BookFactory} from '../shared/book-factory';
 import {BookFormErrorMessages} from './book-form-error-messages';
 import {Book} from '../shared/book';
 import {BookValidators} from '../shared/book-validators';
+import {AuthenticationService} from '../shared/authentication.service';
 
 @Component({
   selector: 'bs-book-form',
@@ -23,7 +24,8 @@ export class BookFormComponent implements OnInit {
   errors:{[key:string]:string} ={};
 
   constructor(private fb:FormBuilder,private bs:BookStoreService,
-              private route:ActivatedRoute, private router:Router) {
+              private route:ActivatedRoute, private router:Router,
+              private authService:AuthenticationService) {
     this.bookForm = this.fb.group({});
     this.images = this.fb.array([]);
   }
@@ -108,8 +110,7 @@ export class BookFormComponent implements OnInit {
         this.router.navigate(['/books', book.isbn]);
       });
     } else {
-      //Hack momentan wissen wir die User id nicht
-      book.user_id = 1;
+      book.user_id = this.authService.getCurrentUserId();
       this.bs.create(book).subscribe(() => {
         this.bookForm.reset(BookFactory.empty());
         this.book = BookFactory.empty();

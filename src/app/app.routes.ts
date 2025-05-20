@@ -6,6 +6,7 @@ import {FirstComponent} from './first/first.component';
 import {SecondComponent} from './second/second.component';
 import {BookFormComponent} from './book-form/book-form.component';
 import {LoginComponent} from './login/login.component';
+import {canNavigateToAdminGuard} from './can-navigate-to-admin.guard';
 
 export const routes: Routes = [
   {path:'', redirectTo:'home', pathMatch:'full'},
@@ -17,7 +18,7 @@ export const routes: Routes = [
       {path:'second', component: SecondComponent},
     ]
   },
-  {path:'admin', component: BookFormComponent},
-  {path:'admin/:isbn', component: BookFormComponent},
+  {path:'admin', component: BookFormComponent, canActivate:[canNavigateToAdminGuard]},
+  {path:'admin/:isbn', component: BookFormComponent, canActivate:[canNavigateToAdminGuard]},
   {path:'login', component: LoginComponent},
 ];
